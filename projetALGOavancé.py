@@ -40,12 +40,24 @@ class Noeud:
             self.filsDroit.afficherInfixe()
 
     def ecrireArbreFichier(self):
-        print(self.valeur,";", end='')
-        if self.filsGauche:
-            self.filsGauche.ecrireArbreFichier()
-        if self.filsDroit:
-            self.filsDroit.ecrireArbreFichier()
-                    
+        with open("test.csv", "a") as myfile:
+            temp = str(self.valeur) + ";"
+            myfile.write(temp)
+            if self.filsGauche:
+                self.filsGauche.ecrireArbreFichier()
+            if self.filsDroit:
+                self.filsDroit.ecrireArbreFichier()
+        myfile.close()
+
+    def LireArbreFichier(self):
+        with open("test.csv", "a") as myfile:
+            temp = str(self.valeur) + ";"
+            myfile.write(temp)
+            if self.filsGauche:
+                self.filsGauche.ecrireArbreFichier()
+            if self.filsDroit:
+                self.filsDroit.ecrireArbreFichier()
+        myfile.close()
                     
         
         
