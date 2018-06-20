@@ -45,10 +45,7 @@ class Noeud:
             self.filsGauche.ecrireArbreFichier()
         if self.filsDroit:
             self.filsDroit.ecrireArbreFichier()
-                    
-                    
-        
-        
+                     
 
 
 monNoeud = Noeud(2)
@@ -62,3 +59,12 @@ monNoeud.afficherInfixe()
 print("\n")
 monNoeud.ecrireArbreFichier()
 
+    ## def pour la taille des noeuds
+    def size(self):
+        if self is None:
+            return 0
+        else:
+            return (size(self.filsGauche)+ 1 + size(self.filsDroit))
+     
+      
+    print ("La taille de larbre est de %d" %(size(monNoeud)))
