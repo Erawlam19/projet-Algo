@@ -32,15 +32,21 @@ class Noeud:
         else:
             self.valeur = Noeud.valeur
 
-    def PrintTree(self):
+    def afficherInfixe(self):
         if self.filsGauche:
-            self.filsGauche.PrintTree()
-        print(self.valeur, end='')
+            self.filsGauche.afficherInfixe()
+        print(self.valeur,";", end='')
         if self.filsDroit:
-            self.filsDroit.PrintTree()
+            self.filsDroit.afficherInfixe()
+
+    def ecrireArbreFichier(self):
+        print(self.valeur,";", end='')
+        if self.filsGauche:
+            self.filsGauche.ecrireArbreFichier()
+        if self.filsDroit:
+            self.filsDroit.ecrireArbreFichier()
                     
                     
-   
         
         
 
@@ -51,5 +57,8 @@ monNoeud.insert(Noeud(5))
 monNoeud.insert(Noeud(1))
 monNoeud.insert(Noeud(15))
 monNoeud.insert(Noeud(0))
-monNoeud.PrintTree()
+
+monNoeud.afficherInfixe()
+print("\n")
+monNoeud.ecrireArbreFichier()
 
