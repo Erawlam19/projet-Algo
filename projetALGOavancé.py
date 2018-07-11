@@ -52,7 +52,50 @@ class Noeud:
             self.filsDroit.afficherPostfixe()
         print(self.valeur,";", end='')
 
-
+#A traduir...
+def deleteNode(root, key):
+ 
+    # Base Case
+    if root is None:
+        return root 
+ 
+    # If the key to be deleted is smaller than the root's
+    # key then it lies in  left subtree
+    if key < root.valeur:
+        root.filsGauche = deleteNode(root.filsGauche, key)
+ 
+    # If the kye to be delete is greater than the root's key
+    # then it lies in right subtree
+    elif(key > root.valeur):
+        root.filsDroit = deleteNode(root.filsDroit, key)
+ 
+    # If key is same as root's key, then this is the node
+    # to be deleted
+    else:
+         
+        # Node with only one child or no child
+        if root.filsGauche is None :
+            temp = root.filsDroit 
+            root = None
+            return temp 
+             
+        elif root.filsDroit is None :
+            temp = root.filsGauche 
+            root = None
+            return temp
+ 
+        # Node with two children: Get the inorder successor
+        # (smallest in the right subtree)
+        temp = minValueNode(root.filsDroit)
+ 
+        # Copy the inorder successor's content to this node
+        root.valeur = temp.valeur
+ 
+        # Delete the inorder successor
+        root.filsDroit = deleteNode(root.filsDroit , temp.valeur)
+ 
+ 
+    return root 
 #---------------------FIN DE CLASSE---------------------#
 
 #Ecrit l'arbre dans un fichier csv ('test.csv', delimiter = ';'),
@@ -131,18 +174,21 @@ def maxProfondeur(self):
  
 
 #Penser à rajouter un return, si la valeur n'est pas trouvée
-def search(self,key):
-     
+def search(Noeud,key):
+
+    if(Noeud is None):
+        return -1
     # Si la racine est NULL ou si cest ma recherche
-    if self.valeur == key:
+    elif Noeud.valeur == key:
         return 1
  
     # Ma recherche est plus grand que la valeur du noeudcourant
-    if self.valeur < key:
-        return search(self.filsDroit,key)
+    elif Noeud.valeur < key:
+        return search(Noeud.filsGauche,key)
    
     # Ma recherche est plus petit que la valeur du noeudcourant
-    return search(self.filsGauche,key)
+    else:
+        return search(Noeud.filsDroit,key)
 
 
 
@@ -176,6 +222,11 @@ unNoeud.afficherPostfixe()
 
 
 
-#print ("La taille de larbre est de %d" %(tailleArbre(monNoeud)))
-#print ("La hauteur de larbre est %d" %(maxProfondeur(monNoeud)))
-#print (search(monNoeud,15))   
+print ("La taille de larbre est de %d" %(tailleArbre(monNoeud)))
+print ("La hauteur de larbre est %d" %(maxProfondeur(monNoeud)))
+print (search(monNoeud,23))
+
+print("Affichage postfixe du Noeud apres suppresion de 15: ")
+unNoeud = deleteNode(unNoeud, 15)
+unNoeud.afficherPostfixe()
+
