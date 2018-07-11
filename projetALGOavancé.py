@@ -36,6 +36,7 @@ class Noeud:
         else:
             self.valeur = Noeud.valeur
 
+    #Affiche l'arbre en parcours Infixe
     def afficherInfixe(self):
         if self.filsGauche:
             self.filsGauche.afficherInfixe()
@@ -43,29 +44,65 @@ class Noeud:
         if self.filsDroit:
             self.filsDroit.afficherInfixe()
 
-    def ecrireArbreFichier(self):
-        myfile = open("test.csv", "a")
-        myfile.write(str(self.valeur) + ";")
-        
+    #Affiche l'arbre en parcours Postfixe
+    def afficherPostfixe(self):
         if self.filsGauche:
-            self.filsGauche.ecrireArbreFichier()
+            self.filsGauche.afficherPostfixe()
         if self.filsDroit:
-            self.filsDroit.ecrireArbreFichier()
-        myfile.close()
+            self.filsDroit.afficherPostfixe()
+        print(self.valeur,";", end='')
 
-    def LireArbreFichier(self):
-        with open('test.csv') as csvfile:
-            readCSV = csv.reader(csvfile, delimiter=';')
-            for row in readCSV:
-                print(row)
-        csvfile.close()
-        #supression du derniere caractere:
-        #with open("test.csv", 'rb+') as filehandle:
-            #filehandle.seek(-1, os.SEEK_END)
-            #filehandle.truncate()
-        #filehandle.close()
 
 #---------------------FIN DE CLASSE---------------------#
+
+#Ecrit l'arbre dans un fichier csv ('test.csv', delimiter = ';'),
+#le fichier doit être vide au préalable, utiliser "ClearFile()" pour ça.        
+#Il faut aussi supprimer le dernier ';', utiliser "DeleteLastChar()" pour ça. 
+def ecrireArbreFichier(Noeud):
+    myfile = open("test.csv", "a")
+    myfile.write(str(Noeud.valeur) + ";")
+    myfile.close()
+    if Noeud.filsGauche:
+        ecrireArbreFichier(Noeud.filsGauche)
+    if Noeud.filsDroit:
+        ecrireArbreFichier(Noeud.filsDroit)
+        
+#Importe un arbre depuis un fichier csv ('test.csv', delimiter = ';'),
+def LireArbreFichier():
+        listeNoeud = FirstCSVRowTOList()
+        unNoeud = Noeud(0)
+        i = 0
+        for i in listeNoeud:
+            if unNoeud.valeur == 0:
+                unNoeud.valeur = int(i)
+            else:
+                tempNoeud = Noeud(0)
+                tempNoeud.valeur = int(i)
+                unNoeud.insert(tempNoeud)
+        return unNoeud
+
+#Retourne la premiere ligne(=row) du fichier 'test.csv' sous forme de liste
+def FirstCSVRowTOList():
+    with open('test.csv', 'r') as csvfile:
+        spamreader = csv.reader(csvfile, delimiter=';')
+        for row in spamreader:
+            return row
+
+#Supprime le dernier caractère d'un fichier        
+def DeleteLastChar():
+    with open("test.csv", "r") as f:
+        file_str = str(f.read())
+        file_str = file_str[:-1]
+    f.close()
+    with open("test.csv", "w") as f:
+        f.write(file_str)
+    f.close()
+
+#Vide le contenu d'un fichier
+def ClearFile():
+    open("test.csv", 'w').close()
+
+#retourne la taille de l'arbre
 def tailleArbre(Noeud):
     if Noeud is None:
         return 0
@@ -107,23 +144,38 @@ def search(self,key):
     # Ma recherche est plus petit que la valeur du noeudcourant
     return search(self.filsGauche,key)
 
-     
-        
 
 
-monNoeud = Noeud(25)
-monNoeud.insert(Noeud(58))
-monNoeud.insert(Noeud(5))
+    
+monNoeud = Noeud(25) #Déclaration d'un premier Noeud
+
+monNoeud.insert(Noeud(58)) #Insertion d'un Noeud
+monNoeud.insert(Noeud(5)) 
 monNoeud.insert(Noeud(4))
 monNoeud.insert(Noeud(15))
 monNoeud.insert(Noeud(3))
 monNoeud.insert(Noeud(2))
 monNoeud.insert(Noeud(1))
 
+print("Affichage infixe: ")
 monNoeud.afficherInfixe()
-#monNoeud.ecrireArbreFichier()
-#monNoeud.LireArbreFichier()
+print("\n")
+print("Affichage postefixe: ")
+monNoeud.afficherPostfixe()
+print("\n")
+print("Export de l'arbre vers test.csv")
+ClearFile()
+ecrireArbreFichier(monNoeud)
+DeleteLastChar()
+print("Import de l'arbre depuis test.csv")
+unNoeud = LireArbreFichier()
+print("Affichage infixe du Noeud importé: ")
+unNoeud.afficherInfixe()
+print("Affichage postfixe du Noeud importé: ")
+unNoeud.afficherPostfixe()
 
-print ("La taille de larbre est de %d" %(tailleArbre(monNoeud)))
-print ("La hauteur de larbre est %d" %(maxProfondeur(monNoeud)))
-print (search(monNoeud,15))   
+
+
+#print ("La taille de larbre est de %d" %(tailleArbre(monNoeud)))
+#print ("La hauteur de larbre est %d" %(maxProfondeur(monNoeud)))
+#print (search(monNoeud,15))   
