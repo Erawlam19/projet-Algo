@@ -93,7 +93,7 @@ def deleteNode(root, key):
  
     return root
 
-## Fonction pour convertir l'INPUT (= une liste representant les noeuds) en un ABR équilibré
+# Fonction pour convertir l'INPUT (= une liste representant les noeuds) en un ABR équilibré
 def TriListeABR(arr):
      
     if not arr:
@@ -112,7 +112,7 @@ def TriListeABR(arr):
     root.filsDroit = TriListeABR(arr[mid+1:])
     return root
 
-## Permet d'afficher larbre apres Tri 
+# Permet d'afficher larbre apres Tri 
 def AffichageABRTri(Noeud):
 	if not Noeud:
 		return	
@@ -122,7 +122,7 @@ def AffichageABRTri(Noeud):
 	
 #---------------------FIN DE CLASSE---------------------#
 
-## Ecrit l'arbre dans un fichier csv ('test.csv', delimiter = ';'),
+# Ecrit l'arbre dans un fichier csv ('test.csv', delimiter = ';'),
 # le fichier doit être vide au préalable, utiliser "ClearFile()" pour ça.        
 # Il faut aussi supprimer le dernier ';', utiliser "DeleteLastChar()" pour ça. 
 def ecrireArbreFichier(Noeud):
@@ -134,7 +134,7 @@ def ecrireArbreFichier(Noeud):
     if Noeud.filsDroit:
         ecrireArbreFichier(Noeud.filsDroit)
         
-## Importe un arbre depuis un fichier csv ('test.csv', delimiter = ';'),
+# Importe un arbre depuis un fichier csv ('test.csv', delimiter = ';'),
 def LireArbreFichier():
         listeNoeud = FirstCSVRowTOList()
         unNoeud = Noeud(0)
@@ -148,14 +148,14 @@ def LireArbreFichier():
                 unNoeud.insert(tempNoeud)
         return unNoeud
 
-## Retourne la premiere ligne(=row) du fichier 'test.csv' sous forme de liste
+# Retourne la premiere ligne(=row) du fichier 'test.csv' sous forme de liste
 def FirstCSVRowTOList():
     with open('test.csv', 'r') as csvfile:
         spamreader = csv.reader(csvfile, delimiter=';')
         for row in spamreader:
             return row
 
-## Supprime le dernier caractère d'un fichier        
+# Supprime le dernier caractère d'un fichier        
 def DeleteLastChar():
     with open("test.csv", "r") as f:
         file_str = str(f.read())
@@ -165,11 +165,11 @@ def DeleteLastChar():
         f.write(file_str)
     f.close()
 
-## Vide le contenu d'un fichier
+# Vide le contenu d'un fichier
 def ClearFile():
     open("test.csv", 'w').close()
 
-## Retourne la taille de l'arbre
+# Retourne la taille de l'arbre
 def tailleArbre(Noeud):
     if Noeud is None:
         return 0
@@ -177,9 +177,8 @@ def tailleArbre(Noeud):
         return (tailleArbre(Noeud.filsGauche)+ 1 + tailleArbre(Noeud.filsDroit))
       
 
-## Calcule la profondeur MAX "maxProfondeur" d'un arbre sleon le nombre de noeuds -
-#Le chemin le plus long depuis le noeud racine jusqu'au noeud le plus éloigné
-
+# Calcule la profondeur MAX "maxProfondeur" d'un arbre sleon le nombre de noeuds -
+# Le chemin le plus long depuis le noeud racine jusqu'au noeud le plus éloigné
 def maxProfondeur(self):
     if self is None:
         return 0 ; 
@@ -197,7 +196,7 @@ def maxProfondeur(self):
             return DProfondeur+1
  
 
-## Permet de rechercher un NOEUD ##
+# Permet de rechercher un noeud
 def search(Noeud,key):
 
     if(Noeud is None):
@@ -215,7 +214,11 @@ def search(Noeud,key):
         return search(Noeud.filsDroit,key)
 
 
-##################
+
+###########################
+# Appel des fonctions
+###########################
+
     
 monNoeud = Noeud(25) #Déclaration d'un premier Noeud
 
